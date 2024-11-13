@@ -1,0 +1,26 @@
+INSERT INTO `customer`(`fnamee`, `lname`, `passwordd`, `email`, `phone_number`) VALUES 
+('habiba','khaled','Habiba_20','habibakhaled20@yahoo.com','01225367400')
+      ,('rowan','abdelaleem','rowan_8','roro2001@gmail.com','01234567899')
+      ,('rowan','kabbany','roro_1','rowankabbany@yahoo.com','01225432170')
+      ,('mariam','ahmed','mariam20','mariam@yahoo.com','01010675422')
+      ,('salma','khaled','soso_209','salma@gmail.com','01152216789')
+      ,('Ahmed','Elmasry','masryy3','masry2001@gmail.com','01285523459');
+	  
+	  insert into office (location)
+	  values ('alexandria')
+      ,('cairo')
+      ,('giza');
+	  
+	  INSERT INTO `car`(`plate_id`, `brand`, `model`, `color`, `car_status`, `year`, `description`, `rating`, `office_id`, `prices`) VALUES 
+('789000','kia','cerato','blue','active',2022,'Anti-lock Brake System','4.1',2,'3740000')
+       ,('789600','chevrolet','aveo','grey','rented',2019,'safety','4.5',1,'475000')
+       ,('789549','toyota','corolla','blue','rented',2019,'comfortable','4.8',2,'980000')
+       ,('789547','opel','astra','grey','out of service',2021,'saves engine','3.7',1,'754000')
+       ,('789541','fiat','tipo','blue','active',2020,'safety','4.8',2,'350000')
+      ,('789456','BMW','x2','blue','active',2022,'comfortable-fast','4.7',3,'3780000')
+      ,('789210','suzuki','presso','orange','rented',2021,'fast','3.9',3,'102000')
+       ,('789987','jeep','wrangler','dark-blue','out of service',2020,'saves engine','4.5',3,'350000')
+       ,('789475','mitsubishi','lancer','silver','active',2019,'affordable to purchase','3.3',1,'990000');
+	   
+	   insert into reservation(pickup_date,return_date,payment,is_rented,customer_id,plate_id)
+            values('2022-12-25','2023-02-25','70.400',0,1,789600);

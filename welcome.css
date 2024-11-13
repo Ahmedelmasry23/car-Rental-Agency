@@ -1,0 +1,92 @@
+*{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.cover{
+    height: 98vh;
+    width:100%;
+}
+.image{
+    background-image:url(wel4.jpg);
+    background-size: cover;
+    height: 100vh;
+    width: 95%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(25% 0%, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);
+}
+.text{
+    text-align: center;
+    text-transform: uppercase;
+
+}
+/* .head{
+    top:0;
+    left:50%;
+} */
+.content{
+    color: #FFF; 
+    letter-spacing: 9px;
+    font-size: 27px;
+}
+.ls{
+    letter-spacing: 42px;
+    font-size: 30px;
+    font-family:sans-serif;
+    animation-name: left_animation;
+    animation-duration: 2s;
+    animation-iteration-count: 3;
+    animation-direction: alternate;
+}
+
+@keyframes left_animation{
+    
+        0%{
+            transform: translate(-180px);
+            opacity: 0;
+        }
+        80%{
+            transform: translate(20px);
+            
+        }
+        100%{
+            transform: translate(0);
+            opacity:1;
+        } 
+    }
+ .txt{
+        animation-name: right_animation;
+        animation-duration: 2s;
+        animation-iteration-count: 3;
+    animation-direction: alternate;
+
+    }
+ @keyframes right_animation{
+    
+        0%{
+            transform: translate(180px);
+            opacity: 0;
+        }
+        80%{
+            transform: translate(-20px);
+            
+        }
+        100%{
+            transform: translate(0);
+            opacity:1;
+        } 
+    }
+
+.pointer{
+    margin: 90px auto 0;
+    width:280px;
+    font-size: 17px;
+    text-align: center;
+    padding: 15px 0;
+    cursor: pointer;
+    background-color: #FFF;
+    border-radius: 25px;
+}

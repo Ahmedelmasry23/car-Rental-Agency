@@ -1,0 +1,255 @@
+dailly payment with specifi period
+
+
+
+
+
+CREATE TABLE calendar (datefield DATE)
+
+DELIMITER |
+CREATE PROCEDURE fill_calendar(start_date DATE, end_date DATE)
+BEGIN
+  DECLARE crt_date DATE;
+  SET crt_date=start_date;
+  WHILE crt_date < end_date DO
+    INSERT INTO calendar VALUES(crt_date);
+    SET crt_date = ADDDATE(crt_date, INTERVAL 1 DAY);
+  END WHILE;
+END |
+DELIMITER ;
+
+
+SELECT
+    calendar.datefield AS DATE,
+    IFNULL(SUM((car.prices)*DATEDIFF(return_date, pickup_date)),0) AS total_payment
+FROM
+    car
+JOIN reservation ON car.plate_id = reservation.plate_id
+RIGHT JOIN calendar ON(
+        DATE(reservation.pickup_date) = calendar.datefield
+    )
+WHERE
+    (
+        calendar.datefield BETWEEN(
+        SELECT
+            MIN(DATE(pickup_date))
+        FROM
+            reservation
+    ) AND(
+    SELECT
+        MAX(DATE(pickup_date))
+    FROM
+        reservation
+)
+    )
+GROUP BY
+    DATE;
+
+
+
+DELETE FROM calendar;
+
+CALL fill_calendar('2022-01-01', '2024-12-31');
+
+SELECT
+    calendar.datefield AS DATE,
+    IFNULL(SUM((car.prices)*DATEDIFF(return_date, pickup_date)),0) AS total_payment
+FROM
+    car
+JOIN reservation ON car.plate_id = reservation.plate_id
+RIGHT JOIN calendar ON(
+        DATE(reservation.pickup_date) = calendar.datefield
+    )
+WHERE
+    (
+        calendar.datefield BETWEEN('2022-12-20') AND('2023-01-01')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="notvalid_add.css">
+	<link rel="stylesheet" href="styles/all.min.css">
+</head>
+<center>
+<body>
+	<?php
+$servername_sql = "localhost";
+$username_sql = "root";
+$password_sql = "";
+$dbname_Sql = "car_rent";
+
+$plate_id_user=$_POST['plate_id'];
+$brand_user=$_POST['brand'];
+$model_user=$_POST['model'];
+$color_user=$_POST['color'];
+$status_user=$_POST['status'];
+$year_user=$_POST['year'];
+$description_user=$_POST['description'];
+$rating_user=$_POST['rating'];
+$office_user=$_POST['office'];
+$price_user=$_POST['price'];
+
+$conn = new mysqli($servername_sql, $username_sql, $password_sql, $dbname_Sql);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT plate_id FROM car";
+$result = $conn->query($sql);
+$flag_found=0;
+$flag=0;
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+	if($plate_id_user==$row["plate_id"])
+	{
+		?>
+	 <br></br>
+	   <body>
+    <div class="cover">
+        <div class="img">
+        <div class="card">
+			<div class="exc">
+		<i class="fa fa-exclamation" style="font-size:70px;color:red" class="exc_ic"></i>
+  </div>
+		     <div class="pointer2">
+			<b style="font-size: 20px;" >Sorry, plate id is already used,</b>
+			<br>
+			<b style="font-size: 20px;" > click back below </b> 
+			<br>
+			<b style="font-size: 20px;" >to enter a new plate id</b>
+           </div>
+			<br>
+			<div>
+			<form action='add_car.php' method='post'>
+			<input type='submit' value='back' class="pointer">
+			</form>
+  </div>
+        </div>
+        </div>
+    </div>
+			  <?php
+		$flag_found=1;
+		break;
+	}
+  }
+} 
+
+if($flag_found==0)
+{
+	$sql = "SELECT office_id ,location  FROM office";
+    $result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+	if($office_user==$row["location"])
+	{
+		$office_id_user=$row["office_id"];
+		$flag=1;
+		break;
+	}
+  }
+} 
+if ($flag==1){
+	$sql = "INSERT INTO `car`(`plate_id`, `brand`, `model`, `color`, `car_status`, `year`, `description`, `rating`, `office_id`, `prices`)
+	VALUES ('$plate_id_user','$brand_user','$model_user','$color_user','$status_user','$year_user','$description_user','$rating_user','$office_id_user','$price_user')";
+	if ($conn->query($sql) === TRUE) 
+	{
+	?>
+	 <br></br>
+	   <body>
+    <div class="cover">
+        <div class="img">
+        <div class="card">
+			<div class="exc">
+		<i class="fa fa-exclamation" style="font-size:70px;color:red" class="exc_ic"></i>
+  </div>
+		     <div class="pointer2">
+			<b style="font-size: 20px;" >car is added successfully,</b>
+			<br>
+			<b style="font-size: 20px;" > click back below </b> 
+			<br>
+			<b style="font-size: 20px;" >to add a new car</b>
+           </div>
+			<br>
+			<div>
+			<form action='add_car.php' method='post'>
+			<input type='submit' value='back' class="pointer">
+			</form>
+  </div>
+        </div>
+        </div>
+    </div>
+			  <?php
+    }
+    else 
+	{
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+else
+{
+	?>
+	 <br></br>
+	   <body>
+    <div class="cover">
+        <div class="img">
+        <div class="card">
+			<div class="exc">
+		<i class="fa fa-exclamation" style="font-size:70px;color:red" class="exc_ic"></i>
+  </div>
+		     <div class="pointer2">
+			<b style="font-size: 20px;" >Sorry, invalid office location,</b>
+			<br>
+			<b style="font-size: 20px;" > click back below </b> 
+			<br>
+			<b style="font-size: 20px;" >to enter a new office location</b>
+           </div>
+			<br>
+			<div>
+			<form action='add_car.php' method='post'>
+			<input type='submit' value='back' class="pointer">
+			</form>
+  </div>
+        </div>
+        </div>
+    </div>
+			  <?php
+}
+}
+$conn->close();
+?> 
+</center>
+</body>
+</html>
